@@ -2,8 +2,9 @@ import React from 'react'
 
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import theme from './theme'
 
+import theme from './theme'
+import { AuthProvider } from './adapters/FirebaseAuthAdapater'
 import Main from './Main'
 
 const App = () => {
@@ -11,7 +12,9 @@ const App = () => {
     <div className="App">
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <Main />
+        <AuthProvider>
+          <Main />
+        </AuthProvider>
       </ThemeProvider>
     </div>
   )
