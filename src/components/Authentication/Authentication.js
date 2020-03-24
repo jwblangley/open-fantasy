@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
 
+import {
+  Input,
+  Button,
+  Typography,
+  Grid
+} from '@material-ui/core'
+
 import { handleSignUp, handleSignIn, handleSignOut } from '../../adapters/FirebaseAuthAdapater'
 
 import useStyles from './style'
@@ -12,6 +19,7 @@ export const SignOn = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [errorMessage, setErrorMessage] = useState('')
 
   // TODO: convert to material-ui
 
@@ -29,58 +37,71 @@ export const SignOn = () => {
   }
 
   return (
-    <div>
-      <h1>{newUser ? 'Sign Up': 'Sign In'}</h1>
-      <label>
-        Email
-        <input
+    <Grid
+      container
+      spacing={3}
+      alignItems="center"
+      justify="center"
+      className={classes.signInContainer}
+    >
+      <Grid item xs={12} className={classes.signInItem}>
+        <Typography variant='h3'>{newUser ? 'Sign Up': 'Sign In'}</Typography>
+      </Grid>
+      <Grid item xs={12} className={classes.signInItem}>
+        <Input
           type='email'
           placeholder='Email'
           value={email}
           onChange={e => {setEmail(e.target.value)}}
         />
-      </label>
-      <label>
-        Password
-        <input
+      </Grid>
+      <Grid item xs={12} className={classes.signInItem}>
+        <Input
           type='password'
           placeholder='Password'
           value={password}
           onChange={e => {setPassword(e.target.value)}}
         />
-      </label>
+      </Grid>
       {
         newUser && (
-          <label>
-            Confirm Password
-            <input
+          <Grid item xs={12} className={classes.signInItem}>
+            <Input
               type='password'
-              placeholder='Password'
+              placeholder='Confirm Password'
               value={confirmPassword}
               onChange={e => {setConfirmPassword(e.target.value)}}
             />
-          </label>
+          </Grid>
         )
       }
-      <button
-        onClick={() => signOn(email, password, confirmPassword)}
-      >
-        {newUser ? 'Sign Up': 'Sign In'}
-      </button>
-      <p>
-        {newUser ? 'Already have an account? ' : 'Don\'t have an account? '}
-        <a onClick={() => setNewUser(prev => !prev)}>{newUser ? 'Sign In': 'Sign Up'}</a>
-      </p>
-    </div>
+      <Grid item xs={12} className={classes.signInItem}>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={() => signOn(email, password, confirmPassword)}
+        >
+          {newUser ? 'Sign Up': 'Sign In'}
+        </Button>
+      </Grid>
+      <Grid item xs={12} className={classes.signInItem}>
+        <Typography>
+          {newUser ? 'Already have an account? ' : 'Don\'t have an account? '}
+          <a style={{cursor:'pointer', fontWeight:'bold'}}onClick={() => setNewUser(prev => !prev)}>{newUser ? 'Sign In': 'Sign Up'}</a>
+        </Typography>
+      </Grid>
+    </Grid>
   )
 }
 
 export const SignOut = () => {
   return (
-    <button
+    <Button
+      variant='contained'
+      color='primary'
       onClick={handleSignOut}
     >
       Sign Out
-    </button>
+    </Button>
   )
 }
